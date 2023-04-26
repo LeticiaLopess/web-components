@@ -13,8 +13,12 @@ class Tooltip extends HTMLElement {
         z-index: 10; 
       }
 
-      :host { 
+      :host(.important) { 
         background: #ccc;
+      }
+
+      :host-context(p) {
+        font-weight: bold;
       }
 
       .highlight {
@@ -39,7 +43,8 @@ class Tooltip extends HTMLElement {
   }
   // A propriedade z-index especifica a ordem da pilha de um elemento. Um elemento com ordem de pilha maior está sempre na frente de um elemento com ordem de pilha menor.
   // ::slotted(.highlight) -> vai pegar o elemento com a classe highlight que tiver slot. se eu quiser pegar todos: ::slotted(*). lembrando que se eu tiver um estilo border-bottom no css, vai sobrepor ao estilo setado no JS
-  // :host -> é como se estivéssemos setando a própria tag uc-tooltip
+  // :host -> é como se estivéssemos setando a própria tag uc-tooltip | :host.important -> para o componente com classe importante, mas dessa forma não funciona, devemos verificar se existe primeiro, envolvemos a classe, div[...] com parênteses
+  // :host-context(p) -> para estilizar a tag p que está dentro do nosso componente | :host-context(p.hello) -> tag p com classe joke | :host-context(p .hello) -> elemento aninhado dentro de .hello
   // nesse caso, se eu tiver um estilo para todas as divs definido em CSS, esse estilo interferirá nesse meu componente. Portanto, utilizaremos a shadow DOM
 
   connectedCallback() { 
