@@ -31,3 +31,4 @@ class Tooltip extends HTMLElement {
 }
 
 customElements.define('uc-tooltip', Tooltip);
+// define que ('nome-tag', será essa Classe)
