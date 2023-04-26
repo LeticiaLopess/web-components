@@ -13,6 +13,10 @@ class Tooltip extends HTMLElement {
         z-index: 10; 
       }
 
+      :host { 
+        background: #ccc;
+      }
+
       .highlight {
         background-color: red;
       }
@@ -20,12 +24,22 @@ class Tooltip extends HTMLElement {
       ::slotted(.highlight) {
         border-bottom: 1px dotted red
       }
+
+      .icon {
+        background: black;
+        color: white;
+        padding: 0.15rem 0.5rem;
+        text-align: center;
+        border-radius: 50%
+      }
+
     </style>
-    <slot>Here we go!</slot>
-    <span> (?)</span>`
+    <slot>Some default</slot>
+    <span class="icon">?</span>`
   }
   // A propriedade z-index especifica a ordem da pilha de um elemento. Um elemento com ordem de pilha maior está sempre na frente de um elemento com ordem de pilha menor.
   // ::slotted(.highlight) -> vai pegar o elemento com a classe highlight que tiver slot. se eu quiser pegar todos: ::slotted(*). lembrando que se eu tiver um estilo border-bottom no css, vai sobrepor ao estilo setado no JS
+  // :host -> é como se estivéssemos setando a própria tag uc-tooltip
   // nesse caso, se eu tiver um estilo para todas as divs definido em CSS, esse estilo interferirá nesse meu componente. Portanto, utilizaremos a shadow DOM
 
   connectedCallback() { 
