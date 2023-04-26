@@ -9,6 +9,10 @@
   <script src="confirm-link.js"></script>
   <script src="button.js"></script>
   <style>
+    html { /* criação de variável de estilo para se usar dentro do JS, pois aplicar um estilo para a tag aqui não é boa prática */
+      --color-primary: #8fe522;
+    }
+
     div {
       border: 2px solid orange;
     }
@@ -33,7 +37,7 @@
   <a is="uc-confirm-link" href="https://www.google.com">Google</a> <!--is property-->
   <br>
   <br>
-  <let-button></let-button>
+  <let-button style="height: 150px;"></let-button>
 
 </body>
 </html>

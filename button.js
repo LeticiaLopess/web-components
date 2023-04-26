@@ -15,7 +15,7 @@ class Button extends HTMLElement {
         border: none;
       }
       button:hover {
-        color: #0155;
+        background-color: #eb9c52;
         font-family: raleway;
         color: white;
         padding: 13px;
