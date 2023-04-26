@@ -7,6 +7,7 @@
   <title>Web Components</title>
   <script src="tooltip.js"></script>
   <script src="confirm-link.js"></script>
+  <script src="button.js"></script>
   <style>
     div {
       border: 2px solid orange;
@@ -30,5 +31,9 @@
   <uc-tooltip></uc-tooltip> <!-- ao colocar nosso componente na shadow dom, esse texto irá sumir, pois não está fazendo parte da shadow dom-->
   <!--movi o textro que estava dentro desse componente acima para dentro do slot de template e apareceu no mesmo lugar-->
   <a is="uc-confirm-link" href="https://www.google.com">Google</a> <!--is property-->
+  <br>
+  <br>
+  <let-button></let-button>
+
 </body>
 </html>
