@@ -7,14 +7,21 @@ class Tooltip extends HTMLElement {
     this.shadowRoot.innerHTML = `
     <style>
       div {
+        font-weight: normal;
         background-color: black;
         color: white;
         position: absolute;
+        top: 1.5rem;
+        left: 0.75rem; 
         z-index: 10; 
+        padding: 0.15rem;
+        border-radius: 3px;
+        box-shadow: 1px 1px 6px rgba(0,0,0,0.26)
       }
 
       :host(.important) { 
         background: var(--color-primary, #ccc);
+        padding: 0.15rem;
       }
 
       :host-context(p) {
@@ -45,6 +52,7 @@ class Tooltip extends HTMLElement {
   // ::slotted(.highlight) -> vai pegar o elemento com a classe highlight que tiver slot. se eu quiser pegar todos: ::slotted(*). lembrando que se eu tiver um estilo border-bottom no css, vai sobrepor ao estilo setado no JS
   // :host -> é como se estivéssemos setando a própria tag uc-tooltip | :host.important -> para o componente com classe importante, mas dessa forma não funciona, devemos verificar se existe primeiro, envolvemos a classe, div[...] com parênteses
   // :host-context(p) -> para estilizar a tag p que está dentro do nosso componente | :host-context(p.hello) -> tag p com classe joke | :host-context(p .hello) -> elemento aninhado dentro de .hello
+  // se esquecer um ";" no estilo css, dá ruim
   // nesse caso, se eu tiver um estilo para todas as divs definido em CSS, esse estilo interferirá nesse meu componente. Portanto, utilizaremos a shadow DOM
 
   connectedCallback() { 

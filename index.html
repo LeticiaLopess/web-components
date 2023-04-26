@@ -9,22 +9,14 @@
   <script src="confirm-link.js"></script>
   <script src="button.js"></script>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     html { /* criação de variável de estilo para se usar dentro do JS, pois aplicar um estilo para a tag aqui não é boa prática */
       --color-primary: #8fe522;
+      font-family: sans-serif;
     }
 
-    div {
-      border: 2px solid orange;
-    }
-
-    .highlight {
-      background-color: #eb9c52;
-    }
-
-    uc-tooltip { /* não conseguiriamos estilizar essa tag no JS pois não teremos essa tag lá, assim, substituiríamos esa tag por: :host */
-      border: 1px solid blue;
-      padding: 0.3rem;
-    }
 
   </style>
 </head>
