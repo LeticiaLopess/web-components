@@ -67,6 +67,14 @@ class Tooltip extends HTMLElement {
     this.style.position = 'relative';
   }
 
+  attributeChangedCallback(name, oldValue, newValue) {
+    console.log(name, oldValue, newValue)
+  }
+
+  static get observedAttributes() { // locked down property é tipo um atributo da classe, algo que inicializamos com o this._tooltipContainer, mas não é, é acessível de fora, aqui nós apenas pegamos o valor
+    return ['text', 'class']
+  }
+
   _showTooltip() { // início com "_" não porque é obrigatório, mas porque já é uma convenção: os métodos que iniciam assim indicam que serão chamados internamente na classe. Não devemos chamá-lo em outras situações
     this._tooltipContainer = document.createElement('div');
     //this._tooltipContainer.textContent = 'This is the tooltip text!';
@@ -82,3 +90,6 @@ class Tooltip extends HTMLElement {
 
 customElements.define('uc-tooltip', Tooltip);
 // define que ('nome-tag', será essa Classe)
+
+// if I try to set a new value in an attribute in the dev tool, this attribute changes don't get picked up because we got no logic for that in the component. The "text" attribute is extracted in connectedCallback (i.e. when the component gets mounted to the DOM) only.
+
