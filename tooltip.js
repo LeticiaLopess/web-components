@@ -12,12 +12,21 @@ class Tooltip extends HTMLElement {
         position: absolute;
         z-index: 10; 
       }
+
+      .highlight {
+        background-color: red;
+      }
+
+      ::slotted(.highlight) {
+        border-bottom: 1px dotted red
+      }
     </style>
     <slot>Here we go!</slot>
     <span> (?)</span>`
   }
   // A propriedade z-index especifica a ordem da pilha de um elemento. Um elemento com ordem de pilha maior está sempre na frente de um elemento com ordem de pilha menor.
-    // nesse caso, se eu tiver um estilo para todas as divs definido em CSS, esse estilo interferirá nesse meu componente. Portanto, utilizaremos a shadow DOM
+  // ::slotted(.highlight) -> vai pegar o elemento com a classe highlight que tiver slot. se eu quiser pegar todos: ::slotted(*). lembrando que se eu tiver um estilo border-bottom no css, vai sobrepor ao estilo setado no JS
+  // nesse caso, se eu tiver um estilo para todas as divs definido em CSS, esse estilo interferirá nesse meu componente. Portanto, utilizaremos a shadow DOM
 
   connectedCallback() { 
     // elemento children deve ficar dentro de um callback, se ficar solto no constructor dá erro, pois ao criar nossos próprios componentes, o browser tem um lifecycle específico pra isso. Estamos acessando a DOM e nosso elemento só vai ser montado na DOM real quando esse método for chamado. Nesse caso, deve ser esse nome mesmo.

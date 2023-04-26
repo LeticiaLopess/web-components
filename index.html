@@ -11,10 +11,15 @@
     div {
       border: 2px solid orange;
     }
+    .highlight {
+      background-color: #eb9c52;
+    }
   </style>
 </head>
 <body>
-  <p><uc-tooltip text="Web Components is a set of standards">Web Components</uc-tooltip> are awesome!</p>
+  <p><uc-tooltip text="Web Components is a set of standards">
+    <span class="highlight">Web Components</span>
+  </uc-tooltip> are awesome!</p>
   <uc-tooltip></uc-tooltip> <!-- ao colocar nosso componente na shadow dom, esse texto irá sumir, pois não está fazendo parte da shadow dom-->
   <!--movi o textro que estava dentro desse componente acima para dentro do slot de template e apareceu no mesmo lugar-->
   <a is="uc-confirm-link" href="https://www.google.com">Google</a> <!--is property-->
