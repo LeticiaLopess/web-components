@@ -1,8 +1,10 @@
 class Tooltip extends HTMLElement {
   constructor() {
     super(); // se não inicializar com super() dá erro
-    this._tooltipContainer; // propriedade de toda classe que pode ser alterada - é tipo uma variável global
+    // this._tooltipContainer; // propriedade de toda classe que pode ser alterada - é tipo uma variável global
     this._tooltipText = 'Some dummy tooltip text.' // texto padrão da tooltip
+    this._tooltipIcon;
+    this._tooltipVisible = false;
     this.attachShadow({ mode: 'open' }) // CLASSE COLOCADA EM SHADOW DOM
     this.shadowRoot.innerHTML = `
     <style>
@@ -17,6 +19,10 @@ class Tooltip extends HTMLElement {
         padding: 0.15rem;
         border-radius: 3px;
         box-shadow: 1px 1px 6px rgba(0,0,0,0.26)
+      }
+
+      :host {
+        position: relative;
       }
 
       :host(.important) { 
@@ -60,33 +66,58 @@ class Tooltip extends HTMLElement {
     if (this.hasAttribute('text')) {
       this._tooltipText = this.getAttribute('text')
     }
-    const tooltipIcon = this.shadowRoot.querySelector('span')
-    tooltipIcon.addEventListener('mouseenter', this._showTooltip.bind(this)) // pela forma como o this se comporta, eu devo usar o método bind aqui. Isso inferirá que o this de _showTooltip() sempre se referirá à classe Tooltip (e não referirá ao principal elemento em _showTooltip)
-    tooltipIcon.addEventListener('mouseleave', this._hideTooltip.bind(this)) // pela forma como o this se comporta, eu devo usar o método bind aqui. Isso inferirá que o this de _showTooltip() sempre se referirá à classe Tooltip (e não referirá ao principal elemento em _showTooltip)
-    this.shadowRoot.appendChild(tooltipIcon); // ANTES DE INSERIR A CHILD EU ACESSO A SHADOW DOM USANDO shadowRoot
-    this.style.position = 'relative';
+    this._tooltipIcon = this.shadowRoot.querySelector('span')
+    this._tooltipIcon.addEventListener('mouseenter', this._showTooltip.bind(this)) // pela forma como o this se comporta, eu devo usar o método bind aqui. Isso inferirá que o this de _showTooltip() sempre se referirá à classe Tooltip (e não referirá ao principal elemento em _showTooltip)
+    this._tooltipIcon.addEventListener('mouseleave', this._hideTooltip.bind(this)) // pela forma como o this se comporta, eu devo usar o método bind aqui. Isso inferirá que o this de _showTooltip() sempre se referirá à classe Tooltip (e não referirá ao principal elemento em _showTooltip)
+    // this.shadowRoot.appendChild(this._tooltipIcon); // ANTES DE INSERIR A CHILD EU ACESSO A SHADOW DOM USANDO shadowRoot
+    this._render();
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    console.log(name, oldValue, newValue)
+    if (oldValue === newValue) {
+      return;
+    }
+    if (name === 'text') {
+      this._tooltipText = newValue;
+    }
   }
 
   static get observedAttributes() { // locked down property é tipo um atributo da classe, algo que inicializamos com o this._tooltipContainer, mas não é, é acessível de fora, aqui nós apenas pegamos o valor
     return ['text', 'class']
   }
 
+  _render() { // lembrando, se possui "_" -> deixa claro que esse método só será chamado nesta classe
+    let tooltipContainer = this.shadowRoot.querySelector('div');
+    if (this._tooltipVisible) {
+      // método responsável por mostrar o texto
+      tooltipContainer = document.createElement('div');
+      //this._tooltipContainer.textContent = 'This is the tooltip text!';
+      tooltipContainer.textContent = this._tooltipText;
+      this.shadowRoot.appendChild(tooltipContainer);
+    } else {
+      if (tooltipContainer) {
+        this.shadowRoot.removeChild(tooltipContainer)
+      }
+    }
+  }
+
   _showTooltip() { // início com "_" não porque é obrigatório, mas porque já é uma convenção: os métodos que iniciam assim indicam que serão chamados internamente na classe. Não devemos chamá-lo em outras situações
-    this._tooltipContainer = document.createElement('div');
-    //this._tooltipContainer.textContent = 'This is the tooltip text!';
-    this._tooltipContainer.textContent = this._tooltipText;
-    this.shadowRoot.appendChild(this._tooltipContainer);
+    this._tooltipVisible = true;
+    this._render();
   }
 
   _hideTooltip() {
-    this.shadowRoot.removeChild(this._tooltipContainer)
+    this._tooltipVisible = false;
+    this._render();
+  }
+
+  disconnectedCallback() { // executa quando o componente é removido -> cancelar requisições HTTP, enviar uma mensagem log pro servidor, limpar eventos... 
+    this._tooltipIcon.removeEventListener('mouseenter', this._showTooltip)
+    this._tooltipIcon.removeEventListener('mouseleave', this._hideTooltip)
   }
 
 }
+
 
 customElements.define('uc-tooltip', Tooltip);
 // define que ('nome-tag', será essa Classe)

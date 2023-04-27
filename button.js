@@ -3,6 +3,7 @@ class Button extends HTMLElement {
     super()
     this._buttonContainer;
     this._buttonText = 'Clique';
+    // this._buttonColor;
     this.attachShadow({ mode: 'open' }) 
     this.shadowRoot.innerHTML = `
     <style>
@@ -13,6 +14,7 @@ class Button extends HTMLElement {
         font-family: raleway;
         color: white;
         border: none;
+        cursor: pointer;
       }
       button:hover {
         background-color: #eb9c52;
@@ -31,6 +33,28 @@ class Button extends HTMLElement {
     const button = this.shadowRoot.querySelector('button')
     this._buttonContainer.textContent = this._buttonText
     button.addEventListener('click', this._buttonClick)
+  }
+
+attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue === newValue) {
+      return;
+    }
+    if (name === 'text') {
+      this._buttonText = newValue;
+      const button = this.shadowRoot.querySelector('button');
+      button.textContent = this._buttonText;
+    }
+    // if (name === 'color') {
+    // button.style.backgroundColor = newValue;
+    // const button = this.shadowRoot.querySelector('button');
+    // button.style.backgroundColor = this._buttonColor
+    // }
+  }
+
+
+
+  static get observedAttributes() { // locked down property é tipo um atributo da classe, algo que inicializamos com o this._tooltipContainer, mas não é, é acessível de fora, aqui nós apenas pegamos o valor
+    return ['text', 'class', 'color']
   }
 
   _buttonClick() {
