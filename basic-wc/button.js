@@ -35,7 +35,7 @@ class Button extends HTMLElement {
     button.addEventListener('click', this._buttonClick)
   }
 
-attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue === newValue) {
       return;
     }
@@ -51,9 +51,7 @@ attributeChangedCallback(name, oldValue, newValue) {
     // }
   }
 
-
-
-  static get observedAttributes() { // locked down property é tipo um atributo da classe, algo que inicializamos com o this._tooltipContainer, mas não é, é acessível de fora, aqui nós apenas pegamos o valor
+  static get observedAttributes() { // locked down property - é tipo um atributo da classe, algo que inicializamos com o this._tooltipContainer, mas não é acessível de fora, aqui nós apenas pegamos o valor
     return ['text', 'class', 'color']
   }
 

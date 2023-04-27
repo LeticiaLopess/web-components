@@ -21,7 +21,7 @@ class Tooltip extends HTMLElement {
         box-shadow: 1px 1px 6px rgba(0,0,0,0.26)
       }
 
-      :host {
+      :host { 
         position: relative;
       }
 
@@ -51,9 +51,11 @@ class Tooltip extends HTMLElement {
       }
 
     </style>
+
     <slot>Some default</slot>
     <span class="icon">?</span>`
   }
+  // A tag <slot> é usada na criação de web components para permitir que o conteúdo do componente seja dinamicamente substituído por conteúdo fornecido pelo usuário. Quando um componente contém uma ou mais tags <slot>, o conteúdo que está dentro dessas tags é considerado como "slot content". O slot content pode ser substituído por outro conteúdo quando o componente é utilizado em uma página HTML.
   // A propriedade z-index especifica a ordem da pilha de um elemento. Um elemento com ordem de pilha maior está sempre na frente de um elemento com ordem de pilha menor.
   // ::slotted(.highlight) -> vai pegar o elemento com a classe highlight que tiver slot. se eu quiser pegar todos: ::slotted(*). lembrando que se eu tiver um estilo border-bottom no css, vai sobrepor ao estilo setado no JS
   // :host -> é como se estivéssemos setando a própria tag uc-tooltip | :host.important -> para o componente com classe importante, mas dessa forma não funciona, devemos verificar se existe primeiro, envolvemos a classe, div[...] com parênteses
@@ -77,7 +79,7 @@ class Tooltip extends HTMLElement {
     if (oldValue === newValue) {
       return;
     }
-    if (name === 'text') {
+    if (name === 'text') { // tipo da property
       this._tooltipText = newValue;
     }
   }
@@ -89,9 +91,7 @@ class Tooltip extends HTMLElement {
   _render() { // lembrando, se possui "_" -> deixa claro que esse método só será chamado nesta classe
     let tooltipContainer = this.shadowRoot.querySelector('div');
     if (this._tooltipVisible) {
-      // método responsável por mostrar o texto
       tooltipContainer = document.createElement('div');
-      //this._tooltipContainer.textContent = 'This is the tooltip text!';
       tooltipContainer.textContent = this._tooltipText;
       this.shadowRoot.appendChild(tooltipContainer);
     } else {
@@ -123,4 +123,13 @@ customElements.define('uc-tooltip', Tooltip);
 // define que ('nome-tag', será essa Classe)
 
 // if I try to set a new value in an attribute in the dev tool, this attribute changes don't get picked up because we got no logic for that in the component. The "text" attribute is extracted in connectedCallback (i.e. when the component gets mounted to the DOM) only.
+
+
+
+
+
+
+
+
+
 
