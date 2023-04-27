@@ -119,7 +119,9 @@ class Modal extends HTMLElement {
     const confirmButton = this.shadowRoot.querySelector('#confirm')
     cancelButton.addEventListener('click', this._cancel.bind(this)); // bind(this) -> para se referir à classe e não ao botão o qual está tendo o evento
     confirmButton.addEventListener('click', this._confirm.bind(this)); 
-
+    // cancelButton.addEventListener('cancel', () => {
+    //   console.log('Cancel inside the component')
+    // })
   }
 
   // poderíamos fazer essa aparição do modal com o atributo opened dessa forma abaixo, mas, quando o atributo opened aparece eu só quero mudar o estilo, então eu posso fazer isso diretamente no css
@@ -154,12 +156,17 @@ class Modal extends HTMLElement {
     this.isOpen = false;
   }
 
-  _cancel() {
+  _cancel(event) { 
     this.hide();
+    const cancelEvent = new Event('cancel', {bubbles: true, composed: true } ); 
+    event.target.dispatchEvent(cancelEvent); 
   }
 
-  _confirm() {
+  _confirm() { // não requer a colocar o bubble nem o composed aqui
     this.hide();
+    const confirmEvent = new Event('confirm') // deve ser o mesmo nome do evento que está sendo ouvido no HTML com o eventListener
+    this.dispatchEvent(confirmEvent);
+
   }
 
 }
@@ -169,4 +176,5 @@ class Modal extends HTMLElement {
 
 
 customElements.define('viva-modal', Modal)
+
 
