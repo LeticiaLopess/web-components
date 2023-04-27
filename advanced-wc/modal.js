@@ -95,7 +95,7 @@ class Modal extends HTMLElement {
           </header>
 
           <section id="main">
-            <slot name=""></slot>
+            <slot name="content"></slot>
           </section>
 
           <section id="actions">
