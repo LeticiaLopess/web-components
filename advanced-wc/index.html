@@ -27,24 +27,34 @@
       cursor: pointer;
       margin: 0 0.25rem;
     }
-
-    p {
-
-    }
   </style>
 </head>
 <body>
   <viva-modal>
+    <h1 slot="title">Please Confirm</h1>
     <p>With your confirmation you agree to pay the full amount!</p>
   </viva-modal>
   <p>Please, confirm your choice.</p>
   <button>Show Details & Confirm</button>
   <script>
     const confirmButton = document.querySelector('button');
-    const modal = document.querySelector('ic-modal');
+    const modal = document.querySelector('viva-modal');
+
+    modal.addEventListener('confirm', () => {
+      console.log('Confirmed...');
+    })
+
+    modal.addEventListener('cancel', () => {
+      console.log('Cancelled...');
+    })
 
     confirmButton.addEventListener('click', () => {
-      modal.setAttribute('opened', '')
+      // modal.setAttribute('opened', '');
+      if (!modal.isOpen) { // se for this.isOpen = true
+        modal.open();
+        console.log('Opening...')
+      }
+      console.log(modal.isOpen)
     })
   </script>
 </body>
