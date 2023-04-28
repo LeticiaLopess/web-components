@@ -22,6 +22,10 @@ class Modal extends HTMLElement {
             opacity: 1;
             pointer-events: all;
           }
+          
+          :host([opened]) #modal {
+            top: 15vh;
+          }
 
           #modal {
             position: fixed;
@@ -37,6 +41,7 @@ class Modal extends HTMLElement {
             justify-content: space-between;
             opacity: 0;
             pointer-events: none;
+            transition: all 0.3s ease-out;
           }
 
           #actions {
@@ -72,12 +77,18 @@ class Modal extends HTMLElement {
             padding: 1rem;
             display: flex;
             justify-content: center;
+            margin: 0;
           }
 
           header h1 {
             font-family: Raleway;
             font-size: 1.6rem;
             color: #171717;
+          }
+
+          header {
+            padding: 1rem;
+            border-bottom: 1px solid #ccc;
           }
 
           #main {
@@ -115,8 +126,10 @@ class Modal extends HTMLElement {
       console.dir(slots[1].assignedNodes()) // printa um objeto no console que nos mostra todos os elementos que estão dentro de slots
     })
 
+    const backdrop = this.shadowRoot.querySelector('#backdrop')
     const cancelButton = this.shadowRoot.querySelector('#cancel')
     const confirmButton = this.shadowRoot.querySelector('#confirm')
+    backdrop.addEventListener('click', this._cancel.bind(this)) // fecho o modal ao clicar no backdrop
     cancelButton.addEventListener('click', this._cancel.bind(this)); // bind(this) -> para se referir à classe e não ao botão o qual está tendo o evento
     confirmButton.addEventListener('click', this._confirm.bind(this)); 
     // cancelButton.addEventListener('cancel', () => {
